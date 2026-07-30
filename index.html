@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Mesh — Autonomous Programming Harness</title>
+  <meta name="description" content="A standalone, lightweight harness for autonomous programming, coding, refactoring, and debugging.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- 3D Mesh Background -->
+  <canvas id="mesh-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>Agent<span class="accent">Mesh</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener">GitHub</a>
+        <a href="#get-started" class="nav-cta">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-video">
+      <video autoplay loop muted playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230f172a' width='1920' height='1080'/%3E%3C/svg%3E">
+        <source src="https://cdn.coverr.co/videos/coverr-typing-on-computer-keyboard-1584/1080p.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+      <div class="scanlines"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="badge">
+        <span class="pulse-dot"></span>
+        <span>v1.0 Now Available</span>
+      </div>
+
+      <h1>
+        <span class="block">Autonomous Code</span>
+        <span class="block gradient-text">Mesh Network</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        A standalone, lightweight harness for autonomous programming, coding, refactoring, and debugging.
+        Deploy AI agents that write, review, and fix code at scale.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="code-title">terminal</span>
+        </div>
+        <code>
+          <span class="prompt">$</span> <span class="cmd">npx</span> <span class="cmd">agentmesh</span> <span class="arg">init my-project</span><br>
+          <span class="success">✓</span> <span class="output">Agent mesh initialized. 3 agents ready.</span>
+        </code>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="#get-started" class="btn btn-primary">
+          Get Started
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener" class="btn btn-secondary">
+          View on GitHub
+        </a>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Core Agents</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">&lt;50</div>
+          <div class="stat-label">MB Runtime</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Dependencies</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Built for <span class="accent">autonomous</span> development</h2>
+        <p>Every component designed for reliability, speed, and developer experience.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+            </svg>
+          </div>
+          <h3>Autonomous Coding</h3>
+          <p>Agents that write production-ready code from natural language specs. Supports 20+ languages with context-aware generation.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4M12 16h.01"/>
+            </svg>
+          </div>
+          <h3>Intelligent Debugging</h3>
+          <p>Automated root-cause analysis with stack trace parsing, log correlation, and fix suggestion. Reduces debug time by 80%.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12a9 9 0 11-6.219-8.56"/>
+              <path d="M21 3v5h-5"/>
+            </svg>
+          </div>
+          <h3>Smart Refactoring</h3>
+          <p>Safe, incremental refactoring with AST-aware transformations. Preserves behavior while improving structure and performance.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Sandboxed Execution</h3>
+          <p>Every agent runs in isolated containers with resource limits. Full audit trail with rollback on failure.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <h3>Lightweight Core</h3>
+          <p>Under 50MB runtime. No heavy orchestrator. Pure function agents that compose via typed contracts.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="6" y1="3" x2="6" y2="15"/>
+              <circle cx="18" cy="6" r="3"/>
+              <circle cx="6" cy="18" r="3"/>
+              <path d="M18 9a9 9 0 0 1-9 9"/>
+            </svg>
+          </div>
+          <h3>Git-Native Workflow</h3>
+          <p>Agents create branches, open PRs, and respond to review comments. Integrates with GitHub, GitLab, and Bitbucket.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Section -->
+  <section id="architecture" class="architecture">
+    <div class="container">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p>Three specialized agents collaborate through typed contracts to deliver complete code solutions.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="code-title">agent-mesh-architecture.ts</span>
+        </div>
+        <pre><code><span class="keyword">const</span> mesh = <span class="function">createMesh</span>({
+  agents: [
+    { name: <span class="string">'architect'</span>, role: <span class="string">'design'</span> },
+    { name: <span class="string">'coder'</span>, role: <span class="string">'implement'</span> },
+    { name: <span class="string">'reviewer'</span>, role: <span class="string">'validate'</span> }
+  ],
+  contracts: <span class="string">'strict'</span>,
+  sandbox: <span class="boolean">true</span>
+});
+
+<span class="comment">// Execute autonomous workflow</span>
+<span class="keyword">const</span> result = <span class="keyword">await</span> mesh.<span class="function">run</span>(<span class="string">'Build REST API with auth'</span>);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="get-started" class="cta">
+    <div class="container">
+      <div class="badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>Open Source & Free Forever</span>
+      </div>
+
+      <h2>Ready to deploy your <span class="gradient-text">first agent mesh?</span></h2>
+      <p>Get started in under 60 seconds. Zero configuration required. Just install, define your agents, and let them code.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-title">quick start</span>
+          <button class="copy-btn" onclick="copyToClipboard('npm install -g agentmesh && agentmesh init')">copy</button>
+        </div>
+        <code>
+          <span class="prompt">$</span> <span class="cmd">npm</span> <span class="cmd">install -g agentmesh</span> <span class="arg">&& agentmesh init</span>
+        </code>
+      </div>
+
+      <div class="cta-buttons">
+        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener" class="btn btn-primary">
+          Star on GitHub
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#" class="btn btn-secondary">Read the Docs</a>
+      </div>
+
+      <div class="trust-badges">
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>MIT Licensed</span>
+        </div>
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          <span>Type-Safe Contracts</span>
+        </div>
+        <div class="badge-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="6" y1="3" x2="6" y2="15"/>
+            <circle cx="18" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/>
+            <path d="M18 9a9 9 0 0 1-9 9"/>
+          </svg>
+          <span>Git-Native</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Agent<span class="accent">Mesh</span></span>
+          </a>
+          <p>A standalone, lightweight harness for autonomous programming. Built for developers who ship.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">API Reference</a></li>
+            <li><a href="#">Examples</a></li>
+            <li><a href="#">Changelog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="#">Twitter</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Agent Mesh. Open source under MIT License.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/mesh.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
