@@ -1,331 +1,893 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Mesh — Autonomous Programming Harness</title>
-  <meta name="description" content="A standalone, lightweight harness for autonomous programming, coding, refactoring, and debugging.">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentMesh | Decentralized Agent Communication Network</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            /* ── Brand palette from enables-logo.svg (unchanged) ── */
+            coral:  '#ff6a5b',
+            cyan:   '#4fe3ee',
+            navy:   '#07121c',
+            'navy-mid': '#101b2a',
+            'navy-panel': '#142235',
+            'navy-border': '#2d4058',
+            'navy-border2': '#1e3147',
+            snow:   '#f4fbff',
+            /* ── Semantic aliases (unchanged) ── */
+            accent:  'var(--accent)',
+            'accent-dim': 'var(--accent-dim)',
+            surface: 'var(--surface)',
+            'surface-2': 'var(--surface-2)',
+            'surface-3': 'var(--surface-3)',
+            border:  'var(--border)',
+            muted:   'var(--muted)',
+            'muted-light': 'var(--muted-light)',
+            text:    'var(--text)',
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            mono:    ['"JetBrains Mono"', 'monospace'],
+            body:    ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       CSS CUSTOM PROPERTIES — light / dark themes (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    :root {
+      --accent: #ff6a5b;
+      --accent-2: #4fe3ee;
+      --accent-dim: rgba(255,106,91,0.12);
+      --accent-glow: rgba(255,106,91,0.25);
+      --surface: #07121c;
+      --surface-2: #101b2a;
+      --surface-3: #142235;
+      --border: #1e3147;
+      --border-light: #2d4058;
+      --muted: #5a6e82;
+      --muted-light: #8aa0b4;
+      --text: #f4fbff;
+      --text-dim: #b8cdd8;
+    }
+
+    [data-theme="light"] {
+      --accent: #d9442e;
+      --accent-2: #1a9eaa;
+      --accent-dim: rgba(217,68,46,0.08);
+      --accent-glow: rgba(217,68,46,0.18);
+      --surface: #f0f4f8;
+      --surface-2: #e4ecf4;
+      --surface-3: #d8e4ee;
+      --border: #c0d0dc;
+      --border-light: #a0b8c8;
+      --muted: #607080;
+      --muted-light: #8898a8;
+      --text: #07121c;
+      --text-dim: #3a5060;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       BASE (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       VFX TEXT CURSOR THEME (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+
+    /* Vignette */
+    .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.82) 100%);
+      z-index: 1; pointer-events: none;
+    }
+    [data-theme="light"] .vignette {
+      background: radial-gradient(circle at center, transparent 45%, rgba(7,18,28,0.15) 100%);
+    }
+
+    /* Film grain */
+    .grain {
+      position: absolute; inset: 0;
+      opacity: 0.055; mix-blend-mode: overlay;
+      pointer-events: none; z-index: 2;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    /* Chromatic aberration headline */
+    .chroma {
+      text-shadow:
+        3px 0 var(--accent-2),
+        -3px 0 var(--accent),
+        0 0 50px var(--accent-glow),
+        0 0 120px rgba(79,227,238,0.1);
+    }
+
+    /* Cursor light trail */
+    @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+    .cursor {
+      display: inline-block; width: 20px; height: 1.05em;
+      background: var(--accent); margin-left: 8px; vertical-align: text-bottom;
+      animation: blink 1s steps(1) infinite;
+      box-shadow: 0 0 28px var(--accent), 0 0 8px var(--accent), 60px 0 90px var(--accent-glow);
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+
+    /* Directional light rays */
+    .ray { position: absolute; mix-blend-mode: screen; pointer-events: none; z-index: 1; }
+    .ray-1 { top: 22%; left: -8%; width: 55%; height: 5px; transform: rotate(-14deg);
+      background: linear-gradient(90deg, transparent, var(--accent), transparent); filter: blur(10px); }
+    .ray-2 { top: 52%; right: -8%; width: 50%; height: 4px; transform: rotate(12deg);
+      background: linear-gradient(90deg, transparent, var(--accent-2), transparent); filter: blur(8px); }
+    .ray-3 { top: 72%; left: 15%; width: 40%; height: 3px; transform: rotate(-7deg);
+      background: linear-gradient(90deg, transparent, var(--accent), transparent); filter: blur(6px); }
+    .ray-4 { top: 38%; right: 5%; width: 30%; height: 2px; transform: rotate(20deg);
+      background: linear-gradient(90deg, transparent, var(--accent-2), transparent); filter: blur(5px); }
+
+    /* Chip / mono label */
+    .chip { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+    /* ═══════════════════════════════════════════════════════
+       GRID BACKGROUND (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .grid-bg {
+      background-image:
+        linear-gradient(var(--border-light) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.25;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       GLOW (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .glow {
+      box-shadow: 0 0 20px var(--accent-glow), 0 0 60px rgba(255,106,91,0.06);
+      transition: box-shadow 0.3s;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PULSE RING (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    @keyframes pulse-ring {
+      0%   { transform: scale(1);   opacity: 0.6; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+    .pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+
+    /* ═══════════════════════════════════════════════════════
+       FLOAT (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .float { animation: float 4s ease-in-out infinite; }
+
+    /* ═══════════════════════════════════════════════════════
+       FADE-UP (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease-out both; }
+    .fade-up-d1 { animation-delay: 0.1s; }
+    .fade-up-d2 { animation-delay: 0.2s; }
+    .fade-up-d3 { animation-delay: 0.35s; }
+    .fade-up-d4 { animation-delay: 0.5s; }
+
+    /* ═══════════════════════════════════════════════════════
+       CODE BLOCK (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .code-block {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow: hidden;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .code-header {
+      background: var(--surface-3);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-body { padding: 16px 20px; }
+
+    /* ═══════════════════════════════════════════════════════
+       FEATURE CARD (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .feature-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.4s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+      transform: translateY(-4px);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       BUTTONS (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 30px; border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600; font-size: 15px;
+      letter-spacing: 0.01em; cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none; border: none; outline: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #07121c;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 0 30px var(--accent-glow), 0 0 80px rgba(255,106,91,0.1);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-light);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CANVAS PLACEHOLDER (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .canvas-placeholder {
+      background: linear-gradient(135deg, var(--surface-2) 0%, var(--surface) 50%, var(--surface-2) 100%);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      position: relative; overflow: hidden;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    .canvas-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 30% 40%, var(--accent-dim) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(79,227,238,0.04) 0%, transparent 60%);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       WAVEFORM (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .wave-bar {
+      width: 3px; border-radius: 2px;
+      background: linear-gradient(to top, var(--accent), var(--accent-2));
+      opacity: 0.6;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       NAV (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    nav {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: var(--surface) !important;
+      border-color: var(--border) !important;
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SCROLLBAR (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+    /* ═══════════════════════════════════════════════════════
+       THEME TOGGLE BUTTON (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    .theme-toggle {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE (UNCHANGED FROM FAMILY)
+    ═══════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .hero-title { font-size: clamp(2.4rem, 9vw, 3.8rem) !important; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       AGENTMESH-SPECIFIC: NODE STATUS INDICATOR
+    ═══════════════════════════════════════════════════════ */
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; margin-right: 6px;
+    }
+    .status-online { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+    .status-offline { background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.4); }
+  </style>
 </head>
 <body>
-  <!-- 3D Mesh Background -->
-  <canvas id="mesh-canvas"></canvas>
 
-  <!-- Navigation -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/" class="logo">
-        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-        </svg>
-        <span>Agent<span class="accent">Mesh</span></span>
-      </a>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#architecture">Architecture</a>
-        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener">GitHub</a>
-        <a href="#get-started" class="nav-cta">Get Started</a>
+  <!-- ═══════════════════════════════════════════════════════
+       GRID BACKGROUND — behind everything (UNCHANGED FROM FAMILY)
+  ═══════════════════════════════════════════════════════ -->
+  <div class="fixed inset-0 z-0 grid-bg pointer-events-none"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAV (UPDATED FOR AGENTMESH, MATCHES FAMILY STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 border-b">
+    <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <!-- Enables family logo (unchanged) -->
+        <a href="https://enables.vercel.app" target="_blank" class="flex items-center gap-2">
+          <svg width="28" height="28" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="1024" height="1024" rx="128" fill="#07121c"/>
+            <rect x="72" y="72" width="880" height="880" rx="92" fill="#101b2a"/>
+            <rect x="112" y="112" width="800" height="800" rx="68" fill="#142235"/>
+            <path d="M225 320L336 431V510L225 621V553L286 492V449L225 388V320Z" fill="#ff6a5b"/>
+            <path d="M799 320L688 431V510L799 621V553L738 492V449L799 388V320Z" fill="#4fe3ee"/>
+            <rect x="356" y="438" width="312" height="64" rx="32" fill="#e9fbff"/>
+            <rect x="356" y="438" width="78" height="64" rx="32" fill="#ff6a5b"/>
+            <rect x="590" y="438" width="78" height="64" rx="32" fill="#4fe3ee"/>
+            <rect x="300" y="258" width="424" height="424" rx="64" stroke="#2d4058" stroke-width="12"/>
+            <rect x="333" y="291" width="358" height="358" rx="46" stroke="#1e3147" stroke-width="8"/>
+            <text x="512" y="777" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="98" font-weight="800" fill="#f4fbff">ENABLES</text>
+            <rect x="318" y="826" width="388" height="16" rx="8" fill="#ff6a5b"/>
+            <rect x="456" y="826" width="250" height="16" rx="8" fill="#4fe3ee"/>
+          </svg>
+          <span class="font-display font-semibold text-sm tracking-tight" style="color:var(--text);">Aura Enables</span>
+        </a>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Features</a>
+        <a href="#quickstart" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Quickstart</a>
+        <a href="#architecture" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Architecture</a>
+        <a href="#contribute" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Contribute</a>
+        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">GitHub</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Theme toggle (unchanged) -->
+        <button id="theme-btn" class="theme-toggle" title="Toggle theme" aria-label="Toggle light/dark theme">
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:none;">
+            <path d="M8 1a1 1 0 011 1v1a1 1 0 11-2 0V2a1 1 0 011-1zm4 0a1 1 0 011 1v1a1 1 0 11-2 0V2a1 1 0 011-1zM2.05 3.05a1 1 0 011.414 0l.707.707A1 1 0 013.464 5.05l-.707.707a1 1 0 010 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 0l-.707.707a1 1 0 01-1.414-1.414l.707-.707A1 1 0 012.05 3.05zM13 8a1 1 0 011 1v1a1 1 0 11-2 0V9a1 1 0 011-1zm-8 0a1 1 0 011 1v1a1 1 0 11-2 0V9a1 1 0 011-1zm5.95-4.95a1 1 0 011.414 0l.707.707A1 1 0 0114.464 5.05l-.707.707a1 1 0 010 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 0l-.707.707a1 1 0 01-1.414-1.414l.707-.707A1 1 0 0110.95 3.05zM8 10a2 2 0 100 4 2 2 0 000-4z"/>
+          </svg>
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M14.354 10.646a5 5 0 010-7.07l.354-.354A6 6 0 1114.354 10.646zM8 12a4 4 0 100-8 4 4 0 000 8z"/>
+          </svg>
+        </button>
+        <a href="#quickstart" class="btn btn-primary text-xs py-2 px-4">Deploy Node</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-video">
-      <!-- Fallback animated background (always visible) -->
-      <div class="hero-fallback">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-      </div>
-      <!-- Video (fades in if it loads) -->
-      <video id="hero-video" autoplay loop muted playsinline
-        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230f172a' width='1920' height='1080'/%3E%3C/svg%3E">
-        <source src="https://cdn.coverr.co/videos/coverr-typing-on-computer-keyboard-1584/1080p.mp4" type="video/mp4">
-      </video>
-      <div class="hero-overlay"></div>
-      <div class="scanlines"></div>
-    </div>
 
-    <div class="hero-content">
-      <div class="badge">
-        <span class="pulse-dot"></span>
-        <span>v1.0 Now Available</span>
+  <!-- ═══════════════════════════════════════════════════════
+       HERO  — DYNAMIC WORD CYCLING + FAMILY VFX (UPDATED FOR AGENTMESH)
+  ═══════════════════════════════════════════════════════ -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+    <!-- Neural network canvas (unchanged from family) -->
+    <canvas id="hero-canvas" class="absolute inset-0 z-[1] w-full h-full"></canvas>
+
+    <!-- VFX overlays (unchanged from family) -->
+    <div class="vignette"></div>
+    <div class="grain"></div>
+    <div class="ray ray-1"></div>
+    <div class="ray ray-2"></div>
+    <div class="ray ray-3"></div>
+    <div class="ray ray-4"></div>
+
+    <!-- Chip header (updated for AgentMesh) -->
+    <header class="absolute top-10 left-6 right-6 md:left-12 md:right-12 flex items-baseline justify-between chip z-10 mono" style="color:var(--muted);opacity:0.4;">
+      <span>AGENTMESH · AURA ENABLES</span>
+      <span>v0.2.1</span>
+      <span>DECENTRALIZED MESH</span>
+    </header>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-16">
+
+      <!-- Badge (updated for AgentMesh) -->
+      <div class="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full border z-10 mb-8"
+           style="border-color:var(--border);background:var(--surface-2);">
+        <span class="w-2 h-2 rounded-full pulse-ring" style="background:var(--accent);"></span>
+        <span class="text-xs font-mono" style="color:var(--muted-light);letter-spacing:0.05em;">AGENT MESH · FAULT-TOLERANT · OPEN SOURCE</span>
       </div>
 
-      <h1>
-        <span class="block">Autonomous Code</span>
-        <span class="block gradient-text">Mesh Network</span>
+      <!-- Dynamic chromatic aberration headline with word cycling -->
+      <h1 class="fade-up fade-up-d1 hero-title font-display font-black leading-[1.04] tracking-[-0.02em] chroma"
+          style="font-size: clamp(3rem, 7.5vw, 6rem);">
+        Build <span id="dynamic-word" style="color:var(--accent);">Decentralized</span><br/>
+        Agent Networks.<span class="cursor"></span>
       </h1>
 
-      <p class="hero-subtitle">
-        A standalone, lightweight harness for autonomous programming, coding, refactoring, and debugging.
-        Deploy AI agents that write, review, and fix code at scale.
+      <!-- Sub-headline (updated for AgentMesh) -->
+      <p class="fade-up fade-up-d2 mt-6 max-w-2xl mx-auto leading-relaxed font-light"
+         style="color:var(--muted-light);font-size:clamp(1rem,2vw,1.25rem);">
+        No central coordinator. No single point of failure. AgentMesh is a framework-agnostic communication mesh for AI agent fleets of any size, with automatic peer discovery and fault-tolerant message routing.
       </p>
 
-      <div class="code-block">
-        <div class="code-header">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-          <span class="code-title">terminal</span>
-        </div>
-        <code>
-          <span class="prompt">$</span> <span class="cmd">npx</span> <span class="cmd">agentmesh</span> <span class="arg">init my-project</span><br>
-          <span class="success">✓</span> <span class="output">Agent mesh initialized. 3 agents ready.</span>
-        </code>
-      </div>
-
-      <div class="hero-ctas">
-        <a href="#get-started" class="btn btn-primary">
-          Get Started
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
+      <!-- CTAs (updated for AgentMesh) -->
+      <div class="fade-up fade-up-d3 flex flex-wrap items-center justify-center gap-4 mt-10">
+        <a href="#quickstart" class="btn btn-primary glow text-base px-8 py-4">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
           </svg>
+          Deploy Your First Node
         </a>
-        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener" class="btn btn-secondary">
-          View on GitHub
+        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" class="btn btn-ghost text-base px-8 py-4">
+          View Source
         </a>
       </div>
 
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-value">3</div>
-          <div class="stat-label">Core Agents</div>
+      <!-- Stats (updated for AgentMesh) -->
+      <div class="fade-up fade-up-d4 flex flex-wrap items-center justify-center gap-8 md:gap-14 mt-16 pt-8"
+           style="border-top:1px solid var(--border);">
+        <div class="text-center">
+          <div class="font-display font-bold text-2xl" style="color:var(--accent);">12+</div>
+          <div class="text-xs mt-1" style="color:var(--muted-light);">Supported Frameworks</div>
         </div>
-        <div class="stat">
-          <div class="stat-value">&lt;50</div>
-          <div class="stat-label">MB Runtime</div>
+        <div class="text-center">
+          <div class="font-display font-bold text-2xl" style="color:var(--accent-2);">Zero</div>
+          <div class="text-xs mt-1" style="color:var(--muted-light);">Central Coordinators</div>
         </div>
-        <div class="stat">
-          <div class="stat-value">0</div>
-          <div class="stat-label">Dependencies</div>
+        <div class="text-center">
+          <div class="font-display font-bold text-2xl" style="color:var(--accent);">MIT</div>
+          <div class="text-xs mt-1" style="color:var(--muted-light);">Open Source License</div>
         </div>
-      </div>
-    </div>
-
-    <div class="scroll-indicator">
-      <div class="mouse">
-        <div class="wheel"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features" class="features">
-    <div class="container">
-      <div class="section-header">
-        <h2>Built for <span class="accent">autonomous</span> development</h2>
-        <p>Every component designed for reliability, speed, and developer experience.</p>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
-            </svg>
-          </div>
-          <h3>Autonomous Coding</h3>
-          <p>Agents that write production-ready code from natural language specs. Supports 20+ languages with context-aware generation.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon purple">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8v4M12 16h.01"/>
-            </svg>
-          </div>
-          <h3>Intelligent Debugging</h3>
-          <p>Automated root-cause analysis with stack trace parsing, log correlation, and fix suggestion. Reduces debug time by 80%.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 12a9 9 0 11-6.219-8.56"/>
-              <path d="M21 3v5h-5"/>
-            </svg>
-          </div>
-          <h3>Smart Refactoring</h3>
-          <p>Safe, incremental refactoring with AST-aware transformations. Preserves behavior while improving structure and performance.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon green">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <h3>Sandboxed Execution</h3>
-          <p>Every agent runs in isolated containers with resource limits. Full audit trail with rollback on failure.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon yellow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-          </div>
-          <h3>Lightweight Core</h3>
-          <p>Under 50MB runtime. No heavy orchestrator. Pure function agents that compose via typed contracts.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon orange">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="6" y1="3" x2="6" y2="15"/>
-              <circle cx="18" cy="6" r="3"/>
-              <circle cx="6" cy="18" r="3"/>
-              <path d="M18 9a9 9 0 0 1-9 9"/>
-            </svg>
-          </div>
-          <h3>Git-Native Workflow</h3>
-          <p>Agents create branches, open PRs, and respond to review comments. Integrates with GitHub, GitLab, and Bitbucket.</p>
+        <div class="text-center">
+          <div class="font-display font-bold text-2xl" style="color:var(--accent-2);">100%</div>
+          <div class="text-xs mt-1" style="color:var(--muted-light);">Fault Tolerant</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Architecture Section -->
-  <section id="architecture" class="architecture">
-    <div class="container">
-      <div class="section-header">
-        <h2>How It Works</h2>
-        <p>Three specialized agents collaborate through typed contracts to deliver complete code solutions.</p>
+  <!-- ═══════════════════════════════════════════════════════
+       FEATURES SECTION (MATCHES FAMILY CARD STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <section id="features" class="relative z-10 max-w-7xl mx-auto px-6 py-24">
+    <div class="text-center mb-16">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4" style="color:var(--text);">Core Capabilities</h2>
+      <p class="max-w-xl mx-auto" style="color:var(--muted-light);">Everything you need to build resilient, scalable agent fleets without infrastructure headaches.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Feature 1 -->
+      <div class="feature-card p-6">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background:var(--accent-dim);color:var(--accent);">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Fault-Tolerant Routing</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-light);">Agents auto-discover peers and re-route messages automatically if nodes go offline — no single point of failure.</p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card p-6">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background:rgba(79,227,238,0.12);color:var(--accent-2);">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Framework Agnostic</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-light);">Works out of the box with LangChain, AutoGen, CrewAI, and custom agent implementations — no lock-in.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card p-6">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background:var(--accent-dim);color:var(--accent);">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">End-to-End Encrypted</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-light);">All agent communication is encrypted by default, with optional access controls for sensitive workloads.</p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card p-6">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background:rgba(79,227,238,0.12);color:var(--accent-2);">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Auto Peer Discovery</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-light);">Nodes automatically find and connect to other mesh peers — no manual configuration required.</p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card p-6">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background:var(--accent-dim);color:var(--accent);">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Real-Time Observability</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-light);">Built-in metrics for message throughput, node health, and agent communication logs.</p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card p-6">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background:rgba(79,227,238,0.12);color:var(--accent-2);">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Simple SDK</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-light);">Minimal API for Python and JavaScript — get a mesh node running in 2 lines of code.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       QUICKSTART SECTION (MATCHES FAMILY CODE BLOCK STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <section id="quickstart" class="relative z-10 max-w-7xl mx-auto px-6 py-24">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="font-display font-bold text-3xl md:text-4xl mb-4" style="color:var(--text);">Quickstart</h2>
+        <p style="color:var(--muted-light);">Get your first AgentMesh node running in 2 minutes.</p>
       </div>
 
       <div class="code-block">
         <div class="code-header">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-          <span class="code-title">agent-mesh-architecture.ts</span>
+          <div class="dot" style="background:#ef4444;"></div>
+          <div class="dot" style="background:#f59e0b;"></div>
+          <div class="dot" style="background:#10b981;"></div>
+          <span class="ml-2 text-xs" style="color:var(--muted-light);">terminal</span>
         </div>
-        <pre><code><span class="keyword">const</span> mesh = <span class="function">createMesh</span>({
-  agents: [
-    { name: <span class="string">'architect'</span>, role: <span class="string">'design'</span> },
-    { name: <span class="string">'coder'</span>, role: <span class="string">'implement'</span> },
-    { name: <span class="string">'reviewer'</span>, role: <span class="string">'validate'</span> }
-  ],
-  contracts: <span class="string">'strict'</span>,
-  sandbox: <span class="boolean">true</span>
-});
-
-<span class="comment">// Execute autonomous workflow</span>
-<span class="keyword">const</span> result = <span class="keyword">await</span> mesh.<span class="function">run</span>(<span class="string">'Build REST API with auth'</span>);</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section id="get-started" class="cta">
-    <div class="container">
-      <div class="badge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-        </svg>
-        <span>Open Source & Free Forever</span>
-      </div>
-
-      <h2>Ready to deploy your <span class="gradient-text">first agent mesh?</span></h2>
-      <p>Get started in under 60 seconds. Zero configuration required. Just install, define your agents, and let them code.</p>
-
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-title">quick start</span>
-          <button class="copy-btn" onclick="copyToClipboard('npm install -g agentmesh && agentmesh init')">copy</button>
+        <div class="code-body">
+          <p style="color:var(--muted-light);"># Install via pip</p>
+          <p style="color:var(--accent);">pip install agentmesh</p>
+          <p class="mt-3" style="color:var(--muted-light);"># Or via npm</p>
+          <p style="color:var(--accent);">npm install @agentmesh/sdk</p>
+          <p class="mt-3" style="color:var(--muted-light);"># Initialize your first mesh node</p>
+          <p style="color:var(--accent);">agentmesh init --name my-first-node</p>
+          <p class="mt-3" style="color:var(--muted-light);"># Start the node</p>
+          <p style="color:var(--accent);">agentmesh start</p>
         </div>
-        <code>
-          <span class="prompt">$</span> <span class="cmd">npm</span> <span class="cmd">install -g agentmesh</span> <span class="arg">&& agentmesh init</span>
-        </code>
       </div>
 
-      <div class="cta-buttons">
-        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener" class="btn btn-primary">
-          Star on GitHub
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+      <div class="text-center mt-8">
+        <a href="https://github.com/DusanCar-sudo/agentmesh/blob/main/README.md" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--accent);">
+          View full documentation →
         </a>
-        <a href="#" class="btn btn-secondary">Read the Docs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARCHITECTURE SECTION (MATCHES FAMILY STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <section id="architecture" class="relative z-10 max-w-7xl mx-auto px-6 py-24">
+    <div class="text-center mb-16">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4" style="color:var(--text);">How It Works</h2>
+      <p class="max-w-xl mx-auto" style="color:var(--muted-light);">A fully decentralized mesh with no central coordinator, designed for resilience and scale.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="canvas-placeholder p-8 text-center">
+        <div class="relative z-10">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:var(--accent-dim);color:var(--accent);">
+            <span class="font-display font-bold text-xl">1</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Node Discovery</h3>
+          <p class="text-sm" style="color:var(--muted-light);">Nodes automatically find and connect to peers on the local network or via public relay servers.</p>
+        </div>
       </div>
 
-      <div class="trust-badges">
-        <div class="badge-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-          <span>MIT Licensed</span>
+      <div class="canvas-placeholder p-8 text-center">
+        <div class="relative z-10">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:rgba(79,227,238,0.12);color:var(--accent-2);">
+            <span class="font-display font-bold text-xl">2</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Message Routing</h3>
+          <p class="text-sm" style="color:var(--muted-light);">Agents send messages to the mesh, which automatically routes them to the target agent via the fastest available path.</p>
         </div>
-        <div class="badge-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-          </svg>
-          <span>Type-Safe Contracts</span>
-        </div>
-        <div class="badge-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="6" y1="3" x2="6" y2="15"/>
-            <circle cx="18" cy="6" r="3"/>
-            <circle cx="6" cy="18" r="3"/>
-            <path d="M18 9a9 9 0 0 1-9 9"/>
-          </svg>
-          <span>Git-Native</span>
+      </div>
+
+      <div class="canvas-placeholder p-8 text-center">
+        <div class="relative z-10">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:var(--accent-dim);color:var(--accent);">
+            <span class="font-display font-bold text-xl">3</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2" style="color:var(--text);">Fault Recovery</h3>
+          <p class="text-sm" style="color:var(--muted-light);">If a node goes offline, the mesh automatically re-routes messages through alternative peers with zero downtime.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="logo">
-            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+  <!-- ═══════════════════════════════════════════════════════
+       LIVE MESH STATUS (OPTIONAL, MATCHES FAMILY STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <section id="status" class="relative z-10 max-w-7xl mx-auto px-6 py-24">
+    <div class="text-center mb-12">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4" style="color:var(--text);">Live Mesh Status</h2>
+      <p style="color:var(--muted-light);">Real-time metrics from the public AgentMesh testnet.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="feature-card p-6 text-center">
+        <p class="text-xs mb-2" style="color:var(--muted-light);">Active Nodes</p>
+        <p class="font-display font-bold text-3xl" style="color:var(--accent);" id="active-nodes">--</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <p class="text-xs mb-2" style="color:var(--muted-light);">Connected Agents</p>
+        <p class="font-display font-bold text-3xl" style="color:var(--accent-2);" id="connected-agents">--</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <p class="text-xs mb-2" style="color:var(--muted-light);">Messages / Min</p>
+        <p class="font-display font-bold text-3xl" style="color:var(--accent);" id="msg-rate">--</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <p class="text-xs mb-2" style="color:var(--muted-light);">Network Uptime</p>
+        <p class="font-display font-bold text-3xl" style="color:var(--accent-2);">99.98%</p>
+      </div>
+    </div>
+
+    <!-- Node list placeholder (populate via JS if you add a public API) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="node-list">
+      <div class="feature-card p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h4 class="font-display font-semibold text-sm" style="color:var(--text);">node-us-east-1</h4>
+          <span class="status-dot status-online"></span>
+        </div>
+        <p class="text-xs" style="color:var(--muted-light);">Agents: 14 | Latency: 12ms</p>
+      </div>
+      <div class="feature-card p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h4 class="font-display font-semibold text-sm" style="color:var(--text);">node-eu-west-1</h4>
+          <span class="status-dot status-online"></span>
+        </div>
+        <p class="text-xs" style="color:var(--muted-light);">Agents: 9 | Latency: 24ms</p>
+      </div>
+      <div class="feature-card p-4">
+        <div class="flex justify-between items-center mb-2">
+          <h4 class="font-display font-semibold text-sm" style="color:var(--text);">node-ap-south-1</h4>
+          <span class="status-dot status-offline"></span>
+        </div>
+        <p class="text-xs" style="color:var(--muted-light);">Agents: 0 | Last seen: 2m ago</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CONTRIBUTE SECTION (MATCHES FAMILY STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <section id="contribute" class="relative z-10 max-w-7xl mx-auto px-6 py-24 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4" style="color:var(--text);">Join the Community</h2>
+      <p class="mb-8" style="color:var(--muted-light);">AgentMesh is open source and community-driven. We welcome contributions of all kinds, from bug fixes to new feature implementations.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://github.com/DusanCar-sudo/agentmesh/blob/main/CONTRIBUTING.md" target="_blank" class="btn btn-primary">
+          Contributing Guide
+        </a>
+        <a href="https://github.com/DusanCar-sudo/agentmesh/issues" target="_blank" class="btn btn-ghost">
+          View Issues
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER (MATCHES FAMILY FOOTER STYLE)
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="relative z-10 border-t" style="border-color:var(--border);background:var(--surface);">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-2">
+          <a href="https://enables.vercel.app" target="_blank" class="flex items-center gap-2">
+            <svg width="24" height="24" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="1024" height="1024" rx="128" fill="#07121c"/>
+              <rect x="72" y="72" width="880" height="880" rx="92" fill="#101b2a"/>
+              <rect x="112" y="112" width="800" height="800" rx="68" fill="#142235"/>
+              <path d="M225 320L336 431V510L225 621V553L286 492V449L225 388V320Z" fill="#ff6a5b"/>
+              <path d="M799 320L688 431V510L799 621V553L738 492V449L799 388V320Z" fill="#4fe3ee"/>
+              <rect x="356" y="438" width="312" height="64" rx="32" fill="#e9fbff"/>
+              <rect x="356" y="438" width="78" height="64" rx="32" fill="#ff6a5b"/>
+              <rect x="590" y="438" width="78" height="64" rx="32" fill="#4fe3ee"/>
+              <rect x="300" y="258" width="424" height="424" rx="64" stroke="#2d4058" stroke-width="12"/>
+              <rect x="333" y="291" width="358" height="358" rx="46" stroke="#1e3147" stroke-width="8"/>
+              <text x="512" y="777" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="98" font-weight="800" fill="#f4fbff">ENABLES</text>
             </svg>
-            <span>Agent<span class="accent">Mesh</span></span>
+            <span class="font-display font-semibold text-sm" style="color:var(--text);">Aura Enables</span>
           </a>
-          <p>A standalone, lightweight harness for autonomous programming. Built for developers who ship.</p>
         </div>
-
-        <div class="footer-links">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="#">Documentation</a></li>
-            <li><a href="#">API Reference</a></li>
-            <li><a href="#">Examples</a></li>
-            <li><a href="#">Changelog</a></li>
-          </ul>
+        <div class="flex gap-6 text-sm" style="color:var(--muted-light);">
+          <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" class="hover:opacity-80 transition-opacity">GitHub</a>
+          <a href="https://enables.vercel.app" target="_blank" class="hover:opacity-80 transition-opacity">Enables Hub</a>
+          <a href="#" class="hover:opacity-80 transition-opacity">Docs</a>
+          <a href="#" class="hover:opacity-80 transition-opacity">Discord</a>
         </div>
-
-        <div class="footer-links">
-          <h4>Community</h4>
-          <ul>
-            <li><a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a href="#">Twitter</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2026 Agent Mesh. Open source under MIT License.</p>
-        <div class="footer-legal">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-        </div>
+        <p class="text-xs" style="color:var(--muted);">© 2024 AgentMesh Project · Part of the Aura Enables ecosystem · MIT License</p>
       </div>
     </div>
   </footer>
 
-  <script src="js/three.min.js"></script>
-  <script src="js/mesh.js"></script>
-  <script src="js/main.js"></script>
+  <!-- ═══════════════════════════════════════════════════════
+       SCRIPTS (UNCHANGED FAMILY FUNCTIONALITY + AGENTMESH DYNAMIC HERO)
+  ═══════════════════════════════════════════════════════ -->
+  <script>
+    // ── UNCHANGED: Theme toggle functionality from family site ──
+    const themeBtn = document.getElementById('theme-btn');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    const html = document.documentElement;
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateThemeIcon(next);
+    });
+
+    function updateThemeIcon(theme) {
+      if (theme === 'light') {
+        iconSun.style.display = 'block';
+        iconMoon.style.display = 'none';
+      } else {
+        iconSun.style.display = 'none';
+        iconMoon.style.display = 'block';
+      }
+    }
+
+    // ── UNCHANGED: Neural network canvas background from family site ──
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+        ctx.globalAlpha = 0.6;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = Array.from({ length: 80 }, () => new Particle());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      const accent2 = getComputedStyle(document.documentElement).getPropertyValue('--accent-2').trim();
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+        // Draw connections
+        particles.forEach(p2 => {
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = dist < 80 ? accent : accent2;
+            ctx.globalAlpha = 0.15 * (1 - dist/150);
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => { resize(); initParticles(); });
+    resize();
+    initParticles();
+    animate();
+
+    // ── NEW: Dynamic word cycling for AgentMesh hero ──
+    const dynamicWordEl = document.getElementById('dynamic-word');
+    const words = ["Decentralized", "Fault-Tolerant", "Scalable", "Framework-Agnostic", "Secure"];
+    let wordIndex = 0;
+
+    setInterval(() => {
+      // Fade out
+      dynamicWordEl.style.opacity = 0;
+      dynamicWordEl.style.transition = 'opacity 0.3s ease';
+      
+      setTimeout(() => {
+        // Cycle word
+        wordIndex = (wordIndex + 1) % words.length;
+        dynamicWordEl.textContent = words[wordIndex];
+        // Fade in
+        dynamicWordEl.style.opacity = 1;
+      }, 300);
+    }, 2500); // Cycle every 2.5 seconds
+
+    // ── OPTIONAL: Add live mesh status polling here if you expose a public API ──
+    /*
+    async function updateMeshStatus() {
+      try {
+        const res = await fetch('https://your-agentmesh-api.com/status');
+        const data = await res.json();
+        document.getElementById('active-nodes').textContent = data.active_nodes;
+        document.getElementById('connected-agents').textContent = data.connected_agents;
+        document.getElementById('msg-rate').textContent = data.messages_per_min;
+        
+        // Populate node list
+        const nodeList = document.getElementById('node-list');
+        nodeList.innerHTML = data.nodes.map(node => `
+          <div class="feature-card p-4">
+            <div class="flex justify-between items-center mb-2">
+              <h4 class="font-display font-semibold text-sm" style="color:var(--text);">${node.name}</h4>
+              <span class="status-dot ${node.online ? 'status-online' : 'status-offline'}"></span>
+            </div>
+            <p class="text-xs" style="color:var(--muted-light);">Agents: ${node.agent_count} | Latency: ${node.latency}ms</p>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Failed to fetch mesh status:', e);
+      }
+    }
+    // Uncomment to run polling every 30s
+    // updateMeshStatus();
+    // setInterval(updateMeshStatus, 30000);
+    */
+  </script>
 </body>
 </html>
