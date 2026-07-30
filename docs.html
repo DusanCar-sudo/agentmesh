@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentMesh Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="mesh-canvas"></canvas>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>Agent<span class="accent">Mesh</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="docs.html">Docs</a>
+        <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="docs">
+    <div class="container">
+      <div class="docs-header">
+        <h1>Documentation</h1>
+        <p>Complete reference for the AgentMesh multi-agent orchestration framework.</p>
+      </div>
+
+      <div class="docs-layout">
+        <aside class="docs-sidebar">
+          <div class="docs-nav">
+            <a href="#overview">Overview</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#installation">Installation</a>
+            <a href="#quick-start">Quick Start</a>
+            <a href="#commands">Commands</a>
+            <a href="#agent-flow">Agent Flow</a>
+            <a href="#providers">Providers</a>
+            <a href="#memory">Memory</a>
+            <a href="#skills">Skills</a>
+            <a href="#server">Server / API</a>
+            <a href="#design">Design Decisions</a>
+          </div>
+        </aside>
+
+        <article class="docs-content">
+          <section id="overview" class="doc-section">
+            <h2>Overview</h2>
+            <p>AgentMesh is a multi-agent orchestration framework in Python. An orchestrator decomposes goals into subtasks, dispatches them to specialized AI agents, and recursively learns from outcomes.</p>
+            <p>It has two entry points: a CLI harness (<code>run.py</code>) and a FastAPI backend (<code>server.py</code>) with a visual workflow builder.</p>
+          </section>
+
+          <section id="architecture" class="doc-section">
+            <h2>Architecture</h2>
+            <div class="arch-diagram">
+              <div class="arch-node">run.py / server.py</div>
+              <div class="arch-arrow">→</div>
+              <div class="arch-node">orchestrator.py</div>
+              <div class="arch-arrow">→</div>
+              <div class="arch-node">agents/</div>
+              <div class="arch-arrow">→</div>
+              <div class="arch-node">core/</div>
+            </div>
+            <ul>
+              <li><strong>run.py / server.py</strong> — Entry points</li>
+              <li><strong>orchestrator.py</strong> — Goal decomposition → task dispatch → aggregation</li>
+              <li><strong>agents/base_agent.py</strong> — Execution loop: contract → tool loop → memory → learning</li>
+              <li><strong>core/contracts.py</strong> — ExecutionContract: typed, bounded task definitions with budget/permissions</li>
+              <li><strong>core/hermes_client.py</strong> — Multi-provider LLM client</li>
+              <li><strong>core/memory.py</strong> — 4-layer SQLite memory</li>
+              <li><strong>core/learner.py</strong> — RecursiveLearner + HarnessOptimizer</li>
+              <li><strong>core/honcho_bridge.py</strong> — Honcho peer modeling + dialectic memory</li>
+              <li><strong>core/skill_registry.py</strong> — Tool registry with built-in skills</li>
+              <li><strong>core/state_manager.py</strong> — File-backed agent state with checkpointing</li>
+              <li><strong>skills/</strong> — JSON skill definitions</li>
+              <li><strong>workspace/</strong> — Runtime output: memory, state, evolution logs</li>
+            </ul>
+          </section>
+
+          <section id="installation" class="doc-section">
+            <h2>Installation</h2>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="code-title">terminal</span>
+              </div>
+              <code>
+                <span class="prompt">$</span> <span class="cmd">git clone</span> <span class="arg">https://github.com/DusanCar-sudo/agentmesh.git</span><br>
+                <span class="prompt">$</span> <span class="cmd">cd</span> <span class="arg">agentmesh</span><br>
+                <span class="prompt">$</span> <span class="cmd">python -m venv</span> <span class="arg">.venv</span><br>
+                <span class="prompt">$</span> <span class="cmd">source</span> <span class="arg">.venv/bin/activate</span> <span class="comment"># Windows: .venv\Scripts\activate</span><br>
+                <span class="prompt">$</span> <span class="cmd">pip install -r requirements.txt</span>
+              </code>
+            </div>
+          </section>
+
+          <section id="quick-start" class="doc-section">
+            <h2>Quick Start</h2>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="code-title">terminal</span>
+              </div>
+              <code>
+                <span class="prompt">$</span> <span class="cmd">cp</span> <span class="arg">.env.example .env</span> <span class="comment"># add your API keys</span><br>
+                <span class="prompt">$</span> <span class="cmd">python</span> <span class="arg">run.py</span> <span class="string">"Research X and write a summary"</span>
+              </code>
+            </div>
+          </section>
+
+          <section id="commands" class="doc-section">
+            <h2>Commands</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Command</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>python run.py "goal"</code></td><td>Run the CLI harness with a goal</td></tr>
+                  <tr><td><code>python run.py --status</code></td><td>Show memory + skill stats</td></tr>
+                  <tr><td><code>python run.py --test</code></td><td>Run all smoke tests</td></tr>
+                  <tr><td><code>uvicorn server:app --host 0.0.0.0 --port 8000 --reload</code></td><td>Run FastAPI server + workflow UI</td></tr>
+                  <tr><td><code>python test_step1.py</code></td><td>Run step 1 tests</td></tr>
+                  <tr><td><code>python test_step2_memory.py</code></td><td>Run memory tests</td></tr>
+                  <tr><td><code>python test_step2_honcho.py</code></td><td>Run Honcho bridge tests</td></tr>
+                  <tr><td><code>python test_providers.py</code></td><td>Run provider tests</td></tr>
+                  <tr><td><code>python test_live.py</code></td><td>Run live integration tests</td></tr>
+                  <tr><td><code>bash setup_fedora.sh</code></td><td>Setup script for Fedora</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="agent-flow" class="doc-section">
+            <h2>Agent Execution Flow</h2>
+            <ol>
+              <li>Orchestrator calls LLM to decompose goal into 2–4 <code>ExecutionContract</code> tasks with parallel groups.</li>
+              <li>Tasks are dispatched to agents: parallel within a group, sequential between groups.</li>
+              <li>Each agent runs a tool loop: LLM decides tool calls → registry executes → results fed back.</li>
+              <li>After task: episode stored in SQLite, <code>RecursiveLearner</code> may evolve the agent's system prompt.</li>
+              <li>After full cycle: <code>HarnessOptimizer</code> rewrites the orchestrator's decomposition strategy.</li>
+            </ol>
+          </section>
+
+          <section id="providers" class="doc-section">
+            <h2>Provider Configuration</h2>
+            <p>Set API keys in <code>.env</code> (copy from <code>.env.example</code>). The <code>AGENTMESH_PROVIDER</code> env var selects the sub-agent provider. The orchestrator always uses <code>deepseek-chat</code> for planning.</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Provider</th><th>Env Key</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>DeepSeek</td><td><code>DEEPSEEK_API_KEY</code></td></tr>
+                  <tr><td>Groq</td><td><code>GROQ_API_KEY</code></td></tr>
+                  <tr><td>OpenRouter</td><td><code>OPENROUTER_API_KEY</code></td></tr>
+                  <tr><td>Anthropic</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+                  <tr><td>Gemini</td><td><code>GEMINI_API_KEY</code></td></tr>
+                  <tr><td>Together</td><td><code>TOGETHER_API_KEY</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="memory" class="doc-section">
+            <h2>Memory System</h2>
+            <p>AgentMesh uses a 4-layer SQLite-backed memory:</p>
+            <ul>
+              <li><strong>Episodic</strong> — per-task execution traces</li>
+              <li><strong>Semantic / Lessons</strong> — extracted learnings</li>
+              <li><strong>Procedural / Skill Stats</strong> — tool usage outcomes</li>
+              <li><strong>Working</strong> — transient agent state</li>
+            </ul>
+            <p>State is file-backed, so agent memory survives truncation, restart, and delegation.</p>
+          </section>
+
+          <section id="skills" class="doc-section">
+            <h2>Skills</h2>
+            <p>The skill registry provides built-in tools that agents can call:</p>
+            <ul>
+              <li><code>web_search</code></li>
+              <li><code>http_get</code></li>
+              <li><code>read_file</code></li>
+              <li><code>write_file</code></li>
+              <li><code>run_python</code></li>
+              <li><code>list_files</code></li>
+            </ul>
+            <p>Additional skills can be added as JSON definitions in <code>skills/</code> and are auto-discovered at runtime.</p>
+          </section>
+
+          <section id="server" class="doc-section">
+            <h2>Server / API</h2>
+            <p><code>server.py</code> is a standalone FastAPI app. It powers the visual workflow builder and uses its own <code>RecursiveLearner</code> with episodes stored in <code>hermes_memory.json</code>.</p>
+            <div class="code-block">
+              <div class="code-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="code-title">terminal</span>
+              </div>
+              <code>
+                <span class="prompt">$</span> <span class="cmd">uvicorn</span> <span class="arg">server:app --host 0.0.0.0 --port 8000 --reload</span>
+              </code>
+            </div>
+          </section>
+
+          <section id="design" class="doc-section">
+            <h2>Key Design Decisions</h2>
+            <ul>
+              <li><strong>Tight token budgets</strong> per agent contract — research shows same quality at 13x less cost.</li>
+              <li><strong>Hard boolean completion gates</strong> instead of verifier agents — verifier agents hurt performance by -8.4.</li>
+              <li><strong>Raw traces never summarized</strong> — Stanford finding: summaries drop accuracy from 50% to 34.9%.</li>
+              <li><strong>Recursive self-evolution</strong> — agents diagnose own failures, extract lessons, evolve system prompts. Acceptance gate rejects generic lessons.</li>
+              <li><strong>File-backed state</strong> — agent working memory on disk, survives truncation/restart/delegation.</li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Agent Mesh. Open source under MIT License.</p>
+        <div class="footer-legal">
+          <a href="index.html">Home</a>
+          <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/three.min.js"></script>
+  <script src="js/mesh.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
