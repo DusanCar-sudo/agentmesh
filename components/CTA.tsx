@@ -17,7 +17,7 @@ export default function CTA() {
         </div>
 
         {/* Headline */}
-        <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
+        <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6 drop-shadow-lg">
           Ready to deploy your
           <br />
           <span className="bg-gradient-to-r from-mesh-cyan to-mesh-purple bg-clip-text text-transparent">
@@ -26,7 +26,7 @@ export default function CTA() {
         </h2>
 
         {/* Subheadline */}
-        <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+        <p className="text-xl text-gray-200 max-w-2xl mx-auto mb-10">
           Get started in under 60 seconds. Zero configuration required.
           Just install, define your agents, and let them code.
         </p>

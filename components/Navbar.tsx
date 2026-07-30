@@ -48,7 +48,7 @@ export default function Navbar() {
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
-                className="text-sm text-gray-400 hover:text-mesh-cyan transition-colors font-mono"
+                className="text-sm text-gray-300 hover:text-mesh-cyan transition-colors font-mono"
               >
                 {link.label}
               </a>

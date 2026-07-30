@@ -18,7 +18,7 @@ export default function Footer() {
                 <span className="text-mesh-cyan">Mesh</span>
               </span>
             </a>
-            <p className="text-gray-400 max-w-sm leading-relaxed">
+            <p className="text-gray-200 max-w-sm leading-relaxed">
               A standalone, lightweight harness for autonomous programming.
               Built for developers who ship.
             </p>

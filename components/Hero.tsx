@@ -44,24 +44,24 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mesh-cyan/10 border border-mesh-cyan/20 mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mesh-cyan/20 border border-mesh-cyan/40 mb-8">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mesh-cyan opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-mesh-cyan"></span>
           </span>
-          <span className="text-sm font-mono text-mesh-cyan">v1.0 Now Available</span>
+          <span className="text-sm font-mono text-mesh-cyan font-semibold">v1.0 Now Available</span>
         </div>
 
         {/* Headline */}
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-6">
-          <span className="block text-white mb-2">Autonomous Code</span>
-          <span className="block glitch-text bg-gradient-to-r from-mesh-cyan via-mesh-blue to-mesh-purple bg-clip-text text-transparent">
+          <span className="block text-white mb-2 drop-shadow-lg">Autonomous Code</span>
+          <span className="block glitch-text bg-gradient-to-r from-mesh-cyan via-mesh-blue to-mesh-purple bg-clip-text text-transparent drop-shadow-md">
             Mesh Network
           </span>
         </h1>
 
         {/* Subheadline */}
-        <p className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto mb-8 leading-relaxed">
+        <p className="text-xl sm:text-2xl text-gray-200 max-w-3xl mx-auto mb-8 leading-relaxed drop-shadow">
           A standalone, lightweight harness for autonomous programming, coding, refactoring, and debugging.
           Deploy AI agents that write, review, and fix code at scale.
         </p>

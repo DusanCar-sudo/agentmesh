@@ -112,12 +112,18 @@ function ConnectionLines({ nodeCount = 50, radius = 12 }) {
 
 export default function MeshBackground() {
   return (
-    <div className="fixed inset-0 -z-10">
+    <div className="fixed inset-0 -z-10 pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 20], fov: 60 }}
         dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ 
+          antialias: true, 
+          alpha: true,
+          preserveDrawingBuffer: true,
+        }}
+        style={{ background: 'transparent' }}
       >
+        <color attach="background" args={['transparent']} />
         <ambientLight intensity={0.5} />
         <NodeField count={1500} radius={18} />
         <ConnectionLines nodeCount={60} radius={14} />

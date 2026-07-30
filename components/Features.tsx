@@ -50,10 +50,10 @@ export default function Features() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4 drop-shadow-lg">
             Built for <span className="text-mesh-cyan">autonomous</span> development
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-200 max-w-2xl mx-auto">
             Every component designed for reliability, speed, and developer experience.
           </p>
         </div>
@@ -63,10 +63,10 @@ export default function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="feature-card group relative p-6 rounded-2xl bg-white/[0.02] backdrop-blur-sm"
+              className="feature-card group relative p-6 rounded-2xl bg-white/[0.06] backdrop-blur-sm border border-white/10"
             >
               {/* Icon */}
-              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 mb-4 ${feature.color}`}>
+              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 mb-4 ${feature.color}`}>
                 <feature.icon className="w-6 h-6" />
               </div>
 
@@ -74,12 +74,12 @@ export default function Features() {
               <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-mesh-cyan transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-gray-200 leading-relaxed">
                 {feature.description}
               </p>
 
               {/* Hover glow */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-mesh-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-mesh-cyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             </div>
           ))}
         </div>
