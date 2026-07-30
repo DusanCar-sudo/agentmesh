@@ -1,3 +1,18 @@
+// Video fallback: fade in if it loads, hide if it errors
+const heroVideo = document.getElementById('hero-video');
+if (heroVideo) {
+  heroVideo.addEventListener('loadeddata', () => {
+    heroVideo.classList.add('loaded');
+  });
+  heroVideo.addEventListener('error', () => {
+    heroVideo.style.display = 'none';
+  });
+  // If already loaded (cached)
+  if (heroVideo.readyState >= 3) {
+    heroVideo.classList.add('loaded');
+  }
+}
+
 // Navbar scroll effect
 const navbar = document.querySelector('.navbar');
 let lastScroll = 0;

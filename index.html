@@ -35,7 +35,15 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-video">
-      <video autoplay loop muted playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230f172a' width='1920' height='1080'/%3E%3C/svg%3E">
+      <!-- Fallback animated background (always visible) -->
+      <div class="hero-fallback">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+      <!-- Video (fades in if it loads) -->
+      <video id="hero-video" autoplay loop muted playsinline
+        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230f172a' width='1920' height='1080'/%3E%3C/svg%3E">
         <source src="https://cdn.coverr.co/videos/coverr-typing-on-computer-keyboard-1584/1080p.mp4" type="video/mp4">
       </video>
       <div class="hero-overlay"></div>
@@ -316,7 +324,7 @@
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/three.min.js"></script>
   <script src="js/mesh.js"></script>
   <script src="js/main.js"></script>
 </body>

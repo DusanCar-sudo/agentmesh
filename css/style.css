@@ -174,6 +174,67 @@ a {
   pointer-events: none;
 }
 
+/* Hero fallback orbs (always visible behind video) */
+.hero-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(0, 240, 255, 0.25);
+  top: 10%;
+  left: 15%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(168, 85, 247, 0.25);
+  bottom: 15%;
+  right: 10%;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: rgba(59, 130, 246, 0.2);
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float 12s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Video sits above fallback, fades in on load */
+.hero-video video {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.hero-video video.loaded {
+  opacity: 0.5;
+}
+
 .hero-content {
   position: relative;
   z-index: 10;
