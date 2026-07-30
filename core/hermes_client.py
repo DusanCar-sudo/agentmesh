@@ -54,53 +54,40 @@ class Provider(str, Enum):
 
 # ── Model catalogue ───────────────────────────────────────────────────────────
 
-MODELS = {
-    Provider.OPENROUTER: {
-        "hermes-70b": "nousresearch/hermes-3-llama-3.1-70b",
-        "hermes-8b":  "nousresearch/hermes-3-llama-3.1-8b",
-        "default":    "nousresearch/hermes-3-llama-3.1-70b",
-        "free":       "meta-llama/llama-3.1-8b-instruct:free",
-    },
-    Provider.GROQ: {
-        "fast":    "llama-3.1-8b-instant",
-        "smart":   "llama-3.3-70b-versatile",
-        "default": "llama-3.1-8b-instant",
-    },
-    Provider.ANTHROPIC: {
-        "fast":    "claude-haiku-4-5-20251001",
-        "smart":   "claude-sonnet-4-6",
-        "default": "claude-haiku-4-5-20251001",
-    },
-    Provider.DEEPSEEK: {
-        "chat":     "deepseek-chat",
-        "reasoner": "deepseek-reasoner",
-        "default":  "deepseek-chat",
-    },
-    # Gemini — OpenAI-compatible endpoint, strong multimodal
-    Provider.GEMINI: {
-        "flash":   "gemini-2.0-flash",
-        "pro":     "gemini-1.5-pro-latest",
-        "fast":    "gemini-1.5-flash-latest",
-        "default": "gemini-2.0-flash",
-    },
-    # Together AI — open source models, Llama/Mixtral/Qwen
-    Provider.TOGETHER: {
-        "llama405": "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
-        "llama70":  "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-        "mixtral":  "mistralai/Mixtral-8x7B-Instruct-v0.1",
-        "qwen":     "Qwen/Qwen2.5-72B-Instruct-Turbo",
-        "default":  "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-    },
-}
+# ── Model catalogue ───────────────────────────────────────────────────────────
+# Imported from core.model_catalogue for single source of truth
 
-ENDPOINTS = {
-    Provider.OPENROUTER: "https://openrouter.ai/api/v1/chat/completions",
-    Provider.GROQ:       "https://api.groq.com/openai/v1/chat/completions",
-    Provider.ANTHROPIC:  "https://api.anthropic.com/v1/messages",
-    Provider.DEEPSEEK:   "https://api.deepseek.com/v1/chat/completions",
-    Provider.GEMINI:     "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-    Provider.TOGETHER:   "https://api.together.xyz/v1/chat/completions",
-}
+from core.model_catalogue import CATALOGUE as _CAT, get_endpoint
+
+
+def _build_models():
+    """Build MODELS dict from catalogue, mapping Provider enum to model lists."""
+    result = {}
+    for p in Provider:
+        cat = _CAT.get(p.value)
+        if cat:
+            models = dict(cat["models"])
+            # Include the default model for fallback lookups
+            models["default"] = cat["default_model"]
+            result[p] = models
+        else:
+            result[p] = {"default": "default"}
+    return result
+
+
+def _build_endpoints():
+    """Build ENDPOINTS dict from catalogue."""
+    result = {}
+    for p in Provider:
+        ep = get_endpoint(p.value)
+        if ep:
+            result[p] = ep
+    return result
+
+
+MODELS = _build_models()
+
+ENDPOINTS = _build_endpoints()
 
 
 # ── Response object ───────────────────────────────────────────────────────────

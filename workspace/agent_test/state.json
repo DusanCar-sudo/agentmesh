@@ -1,0 +1,15 @@
+{
+  "agent_id": "agent_test",
+  "status": "running",
+  "task_id": "task_001",
+  "step": 1,
+  "total_steps": 5,
+  "current_action": "doing research",
+  "tokens_used": 300,
+  "tool_calls": 2,
+  "started_at": "2026-07-15T10:42:25",
+  "updated_at": "2026-07-15T10:42:25",
+  "context": {
+    "last_query": "hermes agents"
+  }
+}

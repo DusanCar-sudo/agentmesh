@@ -106,6 +106,7 @@ class Orchestrator:
         provider: Provider = Provider.DEEPSEEK,
         workspace: str = "workspace",
         stream: bool = False,
+        agent_model: str = None,
     ):
         self.workspace = workspace
         self.stream = stream
@@ -120,16 +121,18 @@ class Orchestrator:
             provider=provider, api_key=orch_key,
             model="deepseek-chat" if provider == Provider.DEEPSEEK else None,
         )
+        # Use agent_model if specified, otherwise fall back to default
+        _agent_model = agent_model or ("deepseek-chat" if provider == Provider.DEEPSEEK else None)
         self.agent_client = HermesClient(
             provider=provider, api_key=agent_key,
-            model="deepseek-chat" if provider == Provider.DEEPSEEK else None,
+            model=_agent_model,
         )
 
         self.registry = SkillRegistry("skills")
         self.memory = AgentMemory(f"{workspace}/memory.db")
         self.honcho = get_honcho_bridge(routing_client=self.orch_client)
-        self.cycle = LearningCycle(self.memory, self.agent_client)
-        self.harness = HarnessOptimizer(self.memory, self.orch_client)
+        self.cycle = LearningCycle(self.memory, self.agent_client, workspace=workspace)
+        self.harness = HarnessOptimizer(self.memory, self.orch_client, workspace=workspace)
         self.orch_state = OrchestratorState(workspace)
 
         # Build sub-agent roster
@@ -171,7 +174,8 @@ class Orchestrator:
                 results = self._run_parallel(group_contracts)
                 plan.results.update(results)
 
-            self.orch_state.mark_task_done(task_group[0])
+            for tid in task_group:
+                self.orch_state.mark_task_done(tid)
 
         # 4. Aggregate final output
         final = self._aggregate(goal, plan)

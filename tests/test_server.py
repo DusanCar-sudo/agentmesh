@@ -5,26 +5,31 @@ from pathlib import Path
 # Ensure project root is on path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# Check if server dependencies are available
+try:
+    from fastapi.testclient import TestClient  # noqa: F401
+    _HAS_FASTAPI = True
+except ImportError:
+    _HAS_FASTAPI = False
+
+pytestmark = pytest.mark.skipif(not _HAS_FASTAPI, reason="fastapi not installed")
+
 
 @pytest.fixture
 def client(tmp_path, monkeypatch):
     """Create a FastAPI TestClient with temp memory."""
     monkeypatch.setenv("DEEPSEEK_API_KEY", "test-key")
-    # Patch the memory module to use temp dir
+
     import core.memory as mem_module
     test_db = str(tmp_path / "test_server.db")
-    monkeypatch.setattr("server.memory", mem_module.AgentMemory(test_db))
-    monkeypatch.setattr("server.learner", None)  # will be set after import
 
-    from fastapi.testclient import TestClient
-    from server import app, ServerLearner, memory as server_memory
-
-    # Re-patch after import
+    # Import server module (will fail if fastapi not installed — tests skip)
     import server
     server.memory = mem_module.AgentMemory(test_db)
-    server.learner = ServerLearner(server.memory)
+    server.learner = server.ServerLearner(server.memory)
 
-    return TestClient(app)
+    from fastapi.testclient import TestClient
+    return TestClient(server.app)
 
 
 def test_health(client):

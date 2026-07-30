@@ -9,7 +9,7 @@ from agents.base_agent import BaseAgent
 from tests.conftest import MockClient
 
 
-class TestAgent(BaseAgent):
+class StubAgent(BaseAgent):
     agent_id = "agent_test"
     system_prompt = "You are a test agent."
 
@@ -50,8 +50,8 @@ def test_agent_run_no_tools(tmp_workspace, memory):
         "enrich_system_prompt": lambda self, aid, bp, td="": bp,
     })()
 
-    agent = TestAgent(client=client, registry=registry, memory=memory,
-                      learning_cycle=cycle, honcho=honcho, workspace=tmp_workspace)
+    agent = StubAgent(client=client, registry=registry, memory=memory,
+                       learning_cycle=cycle, honcho=honcho, workspace=tmp_workspace)
     contract = _make_contract(tmp_workspace)
     result = agent.run(contract)
     assert result.success
@@ -90,7 +90,7 @@ def test_agent_run_budget_exhaustion(tmp_workspace, memory):
         "enrich_system_prompt": lambda self, aid, bp, td="": bp,
     })()
 
-    agent = TestAgent(client=client, registry=registry, memory=memory,
+    agent = StubAgent(client=client, registry=registry, memory=memory,
                       learning_cycle=cycle, honcho=honcho, workspace=tmp_workspace)
     contract = _make_contract(tmp_workspace, max_tool_calls=1)
     result = agent.run(contract)
@@ -119,7 +119,7 @@ def test_agent_stores_episode(tmp_workspace, memory):
         "enrich_system_prompt": lambda self, aid, bp, td="": bp,
     })()
 
-    agent = TestAgent(client=mock, registry=registry, memory=memory,
+    agent = StubAgent(client=mock, registry=registry, memory=memory,
                       learning_cycle=cycle, honcho=honcho, workspace=tmp_workspace)
     contract = _make_contract(tmp_workspace)
     agent.run(contract)

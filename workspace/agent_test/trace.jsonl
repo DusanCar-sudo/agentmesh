@@ -1,0 +1,2 @@
+{"ts": "2026-07-15T10:42:04", "agent_id": "agent_test", "event": "tool_called", "tool": "web_search", "query": "hermes agents"}
+{"ts": "2026-07-15T10:42:04", "agent_id": "agent_test", "event": "error_occurred", "msg": "timeout"}

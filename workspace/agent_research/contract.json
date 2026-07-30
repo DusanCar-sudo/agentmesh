@@ -1,0 +1,22 @@
+{
+  "task_id": "task_001",
+  "agent_id": "agent_research",
+  "description": "Research and summarise: Hermes multi-agent harness design",
+  "max_tokens": 3000,
+  "max_tool_calls": 8,
+  "timeout_seconds": 300,
+  "allowed_tools": [
+    "web_search",
+    "read_file"
+  ],
+  "completion_conditions": [
+    "no_error_flag",
+    "summary_written",
+    "required_keys_present"
+  ],
+  "output_path": "workspace/agent_research/result.json",
+  "required_output_keys": [
+    "summary",
+    "sources"
+  ]
+}

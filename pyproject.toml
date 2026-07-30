@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "agentmesh"
+version = "2.0.0"
+description = "Multi-agent orchestration framework with recursive self-evolution"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+    "honcho-ai>=2.1.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+    "click>=8.0",
+    "pytest>=7.0",
+    "matplotlib>=3.7.0",
+]
+
+[project.scripts]
+agentmesh = "agentmesh.cli.harness:main"
+agentmesh-server = "agentmesh.cli.server_cli:cli"
+agentmesh-lean = "agentmesh.cli.lean:main"
+agentmesh-mcp = "agentmesh.cli.mcp_server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agentmesh*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

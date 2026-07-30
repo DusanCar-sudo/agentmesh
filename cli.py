@@ -21,6 +21,8 @@ import click
 
 # Ensure project root is on path
 sys.path.insert(0, str(Path(__file__).parent))
+from core.model_catalogue import CATALOGUE, get_providers, get_models_for_provider, get_default_model, get_providers_with_keys
+
 
 
 def _get_server_modules():
@@ -55,24 +57,15 @@ def chat(message, provider, model, system, temperature, max_tokens, no_learn):
     # Reload keys from .env
     KEYS.update(load_keys())
 
-    if provider not in PROVIDERS:
+    if provider not in CATALOGUE and provider not in PROVIDERS:
         click.echo(f"Unknown provider: {provider}", err=True)
-        click.echo(f"Available: {', '.join(PROVIDERS.keys())}", err=True)
+        all_provs = sorted(set(list(CATALOGUE.keys()) + list(PROVIDERS.keys())))
+        click.echo(f"Available: {', '.join(all_provs)}", err=True)
         sys.exit(1)
 
-    # Default models per provider
-    DEFAULT_MODELS = {
-        "openai": "gpt-4o-mini",
-        "anthropic": "claude-haiku-4-5-20251001",
-        "deepseek": "deepseek-chat",
-        "groq": "llama-3.3-70b-versatile",
-        "together": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-        "openrouter": "deepseek/deepseek-chat",
-        "gemini": "gemini-2.0-flash",
-        "mimo": "MiMo",
-    }
+    # Resolve model through catalogue (fallback to provider default)
     if not model:
-        model = DEFAULT_MODELS.get(provider, "default")
+        model = resolve_model(provider) or PROVIDERS.get(provider, {}).get('default_model', 'default')
 
     click.echo(f"[{provider}/{model}] Thinking...")
 
@@ -234,6 +227,43 @@ def providers():
                    f"{ps['success_rate']:>7.0%} "
                    f"{ps['avg_latency_ms']:>10.0f}ms "
                    f"{ps['avg_tokens']:>10.0f}")
+
+
+
+
+@cli.command()
+@click.argument("provider", required=False)
+@click.option("--all", "show_all", is_flag=True, help="Show all providers, even without API keys")
+def models(provider, show_all):
+    """List available models from the catalogue."""
+    if provider:
+        info = CATALOGUE.get(provider)
+        if not info:
+            click.echo(f"Unknown provider: {provider}", err=True)
+            click.echo(f"Available: {', '.join(CATALOGUE.keys())}", err=True)
+            sys.exit(1)
+        click.echo("\n--- " + info["name"] + " Models ---")
+        click.echo(f"  Endpoint: {info.get('endpoint', 'N/A')}")
+        click.echo(f"  Env key:  {info.get('env_key', 'N/A')}")
+        models = get_models_for_provider(provider)
+        default = get_default_model(provider)
+        for mid, mname in models.items():
+            tag = " <- default" if mid == default else ""
+            click.echo(f"  * {mid:<45} {mname}{tag}")
+    else:
+        providers_list = get_providers_with_keys()
+        click.echo("\n--- Available Providers (" + str(len(providers_list)) + ") ---")
+        for p in providers_list:
+            if not p["has_key"] and not show_all:
+                continue
+            key_status = "[KEY]" if p["has_key"] else "[no key]"
+            click.echo(f"  {p['name']:<20} [{p['key']}] {key_status}")
+            for m in p["models"]:
+                tag = " <- default" if m["id"] == p["default_model"] else ""
+                click.echo(f"    * {m['name']:<30} {m['id']}{tag}")
+        if not show_all:
+            click.echo("  (use --all to see providers without API keys configured)")
+        click.echo("")
 
 
 # ── serve ─────────────────────────────────────────────────────────────────────

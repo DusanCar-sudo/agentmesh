@@ -15,6 +15,11 @@ from dotenv import load_dotenv
 import httpx
 
 from core.memory import AgentMemory, Episode, make_episode_id
+from core.model_catalogue import (
+    CATALOGUE, get_providers, get_models_for_provider,
+    get_default_model, get_providers_with_keys, resolve_model,
+    get_display_name,
+)
 
 BASE_DIR = Path(__file__).parent
 ENV_FILE  = BASE_DIR / ".env"
@@ -224,8 +229,10 @@ async def hermes_complete(provider, model, user_message, system="", temperature=
                 json={"model":model,"max_tokens":max_tokens,"system":system,
                       "messages":[{"role":"user","content":user_message}]})
             r.raise_for_status()
-            result = r.json()["content"][0]["text"]
-            tokens = r.json().get("usage",{}).get("input_tokens",0) + r.json().get("usage",{}).get("output_tokens",0)
+            body = r.json()
+            result = body["content"][0]["text"]
+            usage = body.get("usage",{})
+            tokens = usage.get("input_tokens",0) + usage.get("output_tokens",0)
     else:
         messages = ([{"role":"system","content":system}] if system else []) + [{"role":"user","content":user_message}]
         hdrs = {"Authorization":f"Bearer {key}","Content-Type":"application/json"}
@@ -287,6 +294,35 @@ def health():
         "env_file": str(ENV_FILE),
         "env_exists": ENV_FILE.exists()
     }
+
+
+@app.get("/models")
+def list_models():
+    """List all providers and their available models, filtered by configured keys."""
+    KEYS.update(load_keys())
+    providers = get_providers_with_keys()
+    return {"providers": providers}
+
+
+@app.get("/models/{provider}")
+def list_provider_models(provider: str):
+    """List models for a specific provider."""
+    info = CATALOGUE.get(provider)
+    if not info:
+        raise HTTPException(status_code=404, detail=f"Unknown provider: {provider}")
+    models = get_models_for_provider(provider)
+    default = get_default_model(provider)
+    env_key = info["env_key"]
+    key = KEYS.get(provider, "")
+    return {
+        "provider": provider,
+        "name": info["name"],
+        "models": [{"id": mid, "name": mname} for mid, mname in models.items()],
+        "default_model": default,
+        "has_key": bool(key) or info.get("no_key", False),
+        "no_key": info.get("no_key", False),
+    }
+
 
 @app.post("/keys")
 def update_keys(payload: KeysPayload):
@@ -498,11 +534,12 @@ async def stream_ws(ws: WebSocket):
                         try:
                             delta = json.loads(chunk)["choices"][0]["delta"].get("content","")
                             if delta: await ws.send_text(delta)
-                        except: pass
+                        except (json.JSONDecodeError, KeyError, IndexError):
+                            pass
         await ws.send_text("[DONE]")
     except Exception as e:
         try: await ws.send_json({"error":str(e)})
-        except: pass
+        except Exception: pass
     finally: await ws.close()
 
 
