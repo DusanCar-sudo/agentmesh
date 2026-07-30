@@ -1,18 +1,32 @@
 'use client'
 
+import { useState } from 'react'
 import { Play, ArrowRight, Terminal, Zap, Shield } from 'lucide-react'
 
 export default function Hero() {
+  const [videoLoaded, setVideoLoaded] = useState(false)
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
+        {/* Fallback animated background */}
+        <div className="absolute inset-0 bg-mesh-dark">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-mesh-cyan/20 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-mesh-purple/20 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-mesh-blue/10 rounded-full blur-3xl" />
+          </div>
+        </div>
+
+        {/* Video */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-40"
+          onLoadedData={() => setVideoLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-1000 ${videoLoaded ? 'opacity-50' : 'opacity-0'}`}
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230a0a0f' width='1920' height='1080'/%3E%3C/svg%3E"
         >
           <source
@@ -20,8 +34,11 @@ export default function Hero() {
             type="video/mp4"
           />
         </video>
+
+        {/* Overlays */}
         <div className="hero-overlay" />
         <div className="scanlines" />
+        <div className="absolute inset-0 bg-gradient-to-b from-mesh-dark/50 via-transparent to-mesh-dark pointer-events-none" />
       </div>
 
       {/* Content */}
