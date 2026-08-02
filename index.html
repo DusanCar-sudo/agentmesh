@@ -383,6 +383,7 @@
       </div>
       <div class="hidden md:flex items-center gap-8">
         <a href="#features" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Features</a>
+        <a href="docs.html" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Docs</a>
         <a href="#quickstart" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Quickstart</a>
         <a href="#architecture" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Architecture</a>
         <a href="#contribute" class="text-sm hover:opacity-80 transition-opacity" style="color:var(--muted-light);">Contribute</a>
@@ -730,7 +731,7 @@
         <div class="flex gap-6 text-sm" style="color:var(--muted-light);">
           <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" class="hover:opacity-80 transition-opacity">GitHub</a>
           <a href="https://enables.vercel.app" target="_blank" class="hover:opacity-80 transition-opacity">Enables Hub</a>
-          <a href="#" class="hover:opacity-80 transition-opacity">Docs</a>
+          <a href="docs.html" class="hover:opacity-80 transition-opacity">Docs</a>
           <a href="#" class="hover:opacity-80 transition-opacity">Discord</a>
         </div>
         <p class="text-xs" style="color:var(--muted);">© 2024 AgentMesh Project · Part of the Aura Enables ecosystem · MIT License</p>
@@ -859,35 +860,64 @@
       }, 300);
     }, 2500); // Cycle every 2.5 seconds
 
-    // ── OPTIONAL: Add live mesh status polling here if you expose a public API ──
-    /*
-    async function updateMeshStatus() {
-      try {
-        const res = await fetch('https://your-agentmesh-api.com/status');
-        const data = await res.json();
-        document.getElementById('active-nodes').textContent = data.active_nodes;
-        document.getElementById('connected-agents').textContent = data.connected_agents;
-        document.getElementById('msg-rate').textContent = data.messages_per_min;
-        
-        // Populate node list
-        const nodeList = document.getElementById('node-list');
-        nodeList.innerHTML = data.nodes.map(node => `
+    // ── NEW: Simulated Live Mesh Status updates to ensure premium visual feel ──
+    const activeNodesEl = document.getElementById('active-nodes');
+    const connectedAgentsEl = document.getElementById('connected-agents');
+    const msgRateEl = document.getElementById('msg-rate');
+    const nodeListEl = document.getElementById('node-list');
+
+    let simulatedNodes = [
+      { name: 'node-us-east-1', online: true, agents: 14, latency: 12 },
+      { name: 'node-eu-west-1', online: true, agents: 9, latency: 24 },
+      { name: 'node-ap-south-1', online: false, agents: 0, lastSeen: '2m ago' },
+      { name: 'node-sa-east-1', online: true, agents: 6, latency: 45 },
+      { name: 'node-us-west-2', online: true, agents: 11, latency: 18 }
+    ];
+
+    function updateLiveStats() {
+      // Base stats
+      const baseNodes = 24;
+      const baseAgents = 152;
+      const baseMsgRate = 4850;
+
+      // Add random small fluctuations
+      const nodeCount = baseNodes + Math.floor(Math.random() * 3) - 1; // 23 to 25
+      const agentCount = baseAgents + Math.floor(Math.random() * 11) - 5; // 147 to 157
+      const msgRate = (baseMsgRate + Math.floor(Math.random() * 300) - 150) / 1000; // 4.7k to 5.0k
+
+      if (activeNodesEl) activeNodesEl.textContent = nodeCount;
+      if (connectedAgentsEl) connectedAgentsEl.textContent = agentCount;
+      if (msgRateEl) msgRateEl.textContent = msgRate.toFixed(1) + 'k';
+
+      // Randomly fluctuate latency and agents of node list
+      simulatedNodes.forEach(node => {
+        if (node.online) {
+          node.latency = Math.max(5, node.latency + Math.floor(Math.random() * 7) - 3);
+          if (Math.random() > 0.8) {
+            node.agents = Math.max(1, node.agents + Math.floor(Math.random() * 3) - 1);
+          }
+        }
+      });
+
+      // Update node list UI
+      if (nodeListEl) {
+        nodeListEl.innerHTML = simulatedNodes.map(node => `
           <div class="feature-card p-4">
             <div class="flex justify-between items-center mb-2">
               <h4 class="font-display font-semibold text-sm" style="color:var(--text);">${node.name}</h4>
               <span class="status-dot ${node.online ? 'status-online' : 'status-offline'}"></span>
             </div>
-            <p class="text-xs" style="color:var(--muted-light);">Agents: ${node.agent_count} | Latency: ${node.latency}ms</p>
+            <p class="text-xs" style="color:var(--muted-light);">
+              ${node.online ? `Agents: ${node.agents} | Latency: ${node.latency}ms` : `Agents: 0 | Last seen: ${node.lastSeen}`}
+            </p>
           </div>
         `).join('');
-      } catch (e) {
-        console.error('Failed to fetch mesh status:', e);
       }
     }
-    // Uncomment to run polling every 30s
-    // updateMeshStatus();
-    // setInterval(updateMeshStatus, 30000);
-    */
+
+    // Run immediately and then every 4 seconds
+    updateLiveStats();
+    setInterval(updateLiveStats, 4000);
   </script>
 </body>
 </html>
