@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:cc="http://web.resource.org/cc/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+     xmlns:spdx="http://spdx.org/rdf/terms#"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="40" height="40"
+     viewBox="0 0 40 40">
+ <sodipodi:namedview
+     inkscape:current-layer="layer1">
+  <inkscape:grid
+     color="#0099e5"
+     opacity=".15"
+     spacingx="1"
+     spacingy="1"
+     units="px"/>
+ </sodipodi:namedview>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="Plasma theme element">
+    <dc:source>https://github.com/ekaaty/vinyl-theme</dc:source>
+    <dc:description>Part of Vinyl Plasma theme</dc:description>
+    <spdx:FileCopyrightText>2025 Ekaaty KDE SIG</spdx:FileCopyrightText>
+    <spdx:LicenseIdentifier>GPL-3.0</spdx:LicenseIdentifier>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style id="current-color-scheme" type="text/css">
+   .ColorScheme-Background { color: #eff0f1; }
+   .ColorScheme-Text       { color: #7d7d7d; }
+  </style>
+</defs>
+ <g id="block-center">
+  <rect x="100" y="48" width="32" height="32"/>
+ </g>
+ <g id="block-top-left">
+  <path d="m98 45a1 1 0 0 0-1 1v2h3v-3h-1z"/>
+  <path d="m98 44a2 2 0 0 0-2 2v2h1v-2a1 1 0 0 1 1-1h2v-1z"/>
+ </g>
+ <g id="block-top-right">
+  <path d="m135 46a1 1 0 0 0-1-1h-2v3h3v-1z"/>
+  <path d="m136 46a2 2 0 0 0-2-2h-2v1h2a1 1 0 0 1 1 1v2h1z"/>
+ </g>
+ <g id="block-bottom-right">
+  <path d="m134 83a1 1 0 0 0 1-1v-2h-3v3h1z"/>
+  <path d="m134 84a2 2 0 0 0 2-2v-2h-1v2a1 1 0 0 1-1 1h-2v1z"/>
+ </g>
+ <g id="block-bottom-left">
+  <path d="m97 82a1 1 0 0 0 1 1h2v-3h-3v1z"/>
+  <path d="m96 82a2 2 0 0 0 2 2h2v-1h-2a1 1 0 0 1-1-1v-2h-1z"/>
+ </g>
+ <g id="block-top">
+  <rect x="100" y="45" width="32" height="3"/>
+  <rect x="100" y="44" width="32" height="1"/>
+ </g>
+ <g id="block-left">
+  <rect x="97" y="48" width="3" height="32"/>
+  <rect x="96" y="48" width="1" height="32"/>
+ </g>
+ <g id="block-right">
+  <rect x="132" y="48" width="3" height="32"/>
+  <rect x="135" y="48" width="1" height="32"/>
+ </g>
+ <g id="block-bottom">
+  <rect x="100" y="80" width="32" height="3"/>
+  <rect x="100" y="83" width="32" height="1"/>
+ </g>
+</svg>

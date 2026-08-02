@@ -1,0 +1,14 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "christian.tosta@gmail.com",
+                "Name": "Christian Tosta"
+            }
+        ],
+        "Id": "VinylStripes",
+        "Name": "Vinyl: Stripes",
+	    "Version": "6.5.3.25.12.5",
+        "License": "GPLv3.0+"
+    }
+}

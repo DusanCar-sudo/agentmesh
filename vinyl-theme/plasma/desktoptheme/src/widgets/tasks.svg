@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:cc="http://web.resource.org/cc/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+     xmlns:spdx="http://spdx.org/rdf/terms#"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="252" height="42"
+     viewBox="0 0 252 42">
+ <sodipodi:namedview
+     inkscape:current-layer="layer1">
+  <inkscape:grid
+     color="#0099e5"
+     opacity=".15"
+     spacingx="1"
+     spacingy="1"
+     units="px"/>
+ </sodipodi:namedview>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="Plasma theme element">
+    <dc:source>https://github.com/ekaaty/vinyl-theme</dc:source>
+    <dc:description>Part of Vinyl Plasma theme</dc:description>
+    <spdx:FileCopyrightText>2025 Ekaaty KDE SIG</spdx:FileCopyrightText>
+    <spdx:LicenseIdentifier>GPL-3.0</spdx:LicenseIdentifier>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style id="current-color-scheme" type="text/css">
+   .ColorScheme-Background   { color: #eff0f1; }
+   .ColorScheme-Highlight    { color: #00aaff; }
+   .ColorScheme-NeutralText  { color: #f67400; }
+   .ColorScheme-PositiveText { color: #27ae60; }
+   .ColorScheme-Text         { color: #7d7d7d; }
+  </style>
+ </defs>
+ <g inkscape:groupmode="layer" inkscape:label="RESOURCES">
+  <g id="taskbutton" transform="translate(-95,-87)" sodipodi:insensitive="true">
+   <g id="taskbutton-center">
+    <rect x="100" y="48" width="32" height="32" opacity=".8"/>
+   </g>
+   <g id="taskbutton-topleft" fill="currentColor">
+    <path class="ColorScheme-Background" d="m98 45a1 1 0 0 0-1 1v2h3v-3h-1z" opacity=".8"/>
+    <path class="ColorScheme-Background" d="m98 44a2 2 0 0 0-2 2v2h1v-2a1 1 0 0 1 1-1h2v-1z"/>
+    <path class="ColorScheme-Background" d="m95 43v5h1v-2a2 2 0 0 1 2-2h2v-1h-4z" opacity="0"/>
+   </g>
+   <g id="taskbutton-topright" fill="currentColor">
+    <path class="ColorScheme-Background" d="m135 46a1 1 0 0 0-1-1h-2v3h3v-1z" opacity=".8"/>
+    <path class="ColorScheme-Background" d="m136 46a2 2 0 0 0-2-2h-2v1h2a1 1 0 0 1 1 1v2h1z"/>
+    <path class="ColorScheme-Background" d="m132 43v1h2a2 2 0 0 1 1.9824 1.7383 2 2 0 0 1 0.0176 0.26172v2h1v-5h-1z" opacity="0"/>
+   </g>
+   <g id="taskbutton-bottomright" fill="currentColor">
+    <path class="ColorScheme-Background" d="m134 83a1 1 0 0 0 1-1v-2h-3v3h1z" opacity=".8"/>
+    <path class="ColorScheme-Background" d="m134 84a2 2 0 0 0 2-2v-2h-1v2a1 1 0 0 1-1 1h-2v1z"/>
+    <path class="ColorScheme-Background" d="m137 85v-5h-1v2a2 2 0 0 1-2 2h-2v1h4z" opacity="0"/>
+   </g>
+   <g id="taskbutton-bottomleft" fill="currentColor">
+    <path class="ColorScheme-Background" d="m97 82a1 1 0 0 0 1 1h2v-3h-3v1z" opacity=".8"/>
+    <path class="ColorScheme-Background" d="m96 82a2 2 0 0 0 2 2h2v-1h-2a1 1 0 0 1-1-1v-2h-1z"/>
+    <path class="ColorScheme-Background" d="m95 85v-5h1v2a2 2 0 0 0 2 2h2v1h-4z" opacity="0"/>
+   </g>
+   <g id="taskbutton-top" fill="currentColor">
+    <rect class="ColorScheme-Background" x="100" y="45" width="32" height="3" opacity=".8"/>
+    <rect class="ColorScheme-Background" x="100" y="44" width="32" height="1"/>
+    <rect class="ColorScheme-Background" x="100" y="43" width="32" height="1" opacity="0"/>
+   </g>
+   <g id="taskbutton-left" fill="currentColor">
+    <rect class="ColorScheme-Background" x="97" y="48" width="3" height="32" opacity=".8"/>
+    <rect class="ColorScheme-Background" x="96" y="48" width="1" height="32"/>
+    <rect class="ColorScheme-Background" x="95" y="48" width="1" height="32" opacity="0"/>
+   </g>
+   <g id="taskbutton-right" fill="currentColor">
+    <rect class="ColorScheme-Background" x="132" y="48" width="3" height="32" opacity=".8"/>
+    <rect class="ColorScheme-Background" x="135" y="48" width="1" height="32"/>
+    <rect class="ColorScheme-Background" x="136" y="48" width="1" height="32" opacity="0"/>
+   </g>
+   <g id="taskbutton-bottom" fill="currentColor">
+    <rect class="ColorScheme-Background" x="100" y="80" width="32" height="3" opacity=".8"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+   </g>
+  </g>
+  <g inkscape:label="statuses" sodipodi:insensitive="true">
+   <rect id="status-progress" class="ColorScheme-PositiveText" x="-20" y="20" width="16" height="2" ry="1" fill="currentColor"/>
+   <rect id="status-attention" class="ColorScheme-NeutralText" x="-20" y="16" width="16" height="2" ry="1" fill="currentColor"/>
+   <rect id="status-focus" class="ColorScheme-Highlight" x="-20" y="12" width="16" height="2" ry="1" fill="currentColor"/>
+   <rect id="status-hover" class="ColorScheme-Highlight" x="-20" y="8" width="16" height="2" ry="1" fill="currentColor" opacity=".6"/>
+   <rect id="status-normal" class="ColorScheme-Text" x="-16" y="4" width="12" height="2" ry="1" fill="currentColor" opacity=".33"/>
+   <rect id="status-minimized" class="ColorScheme-Text" x="-10" width="6" height="2" ry="1" fill="currentColor" opacity=".33"/>
+  </g>
+  <g id="expander" transform="translate(-99.495,-96.998)" sodipodi:insensitive="true">
+   <path d="m87.495 121a5.4999 5.4999 0 0 0-5.4999 5.4999 5.4999 5.4999 0 0 0 5.4999 5.4999 5.4999 5.4999 0 0 0 5.4999-5.4999 5.4999 5.4999 0 0 0-5.4999-5.4999z" opacity=".25"/>
+   <path class="ColorScheme-Highlight" d="m87.495 122a4.4999 4.4999 0 0 0-4.4999 4.4999 4.4999 4.4999 0 0 0 4.4999 4.4999 4.4999 4.4999 0 0 0 4.4999-4.4999 4.4999 4.4999 0 0 0-4.4999-4.4999z" fill="currentColor"/>
+   <path d="m86.493 123.5 0.0012 1.9929-1.9978 0.014 0.0086 1.9874 2.0033 0.0111-0.0073 1.9974 1.9871-6e-3 0.0086-1.9941 2.0042-3e-5v-1.9957h-2.0122l0.02493-2.007z" opacity=".25"/>
+   <path d="m86.982 124 0.0012 1.9929-1.9979 0.014 0.0086 0.98742 2.0034 0.0111-0.0073 1.9974 0.98717-6e-3 0.0086-1.9941 2.0038-3e-5v-0.99572h-2.0119l0.02493-2.007z" fill="#fff"/>
+  </g>
+ </g>
+ <g inkscape:groupmode="layer" inkscape:highlight-color="#48a1eb" inkscape:label="ELEMENTS">
+  <g transform="translate(210,2e-5)" inkscape:label="progress" sodipodi:insensitive="true">
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-bottomright" xlink:href="#taskbutton-bottomright"/>
+   <g transform="translate(-95,-43)" fill="currentColor" inkscape:label="progress-bottom">
+    <rect x="100" y="80" width="32" height="3" opacity=".128"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1" opacity=".16"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+    <use transform="translate(130,60.5)" opacity=".33" inkscape:label="use85" xlink:href="#status-progress"/>
+   </g>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-bottomleft" xlink:href="#taskbutton-bottomleft"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-right" xlink:href="#taskbutton-right"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-center" xlink:href="#taskbutton-center"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-left" xlink:href="#taskbutton-left"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-topright" xlink:href="#taskbutton-topright"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-top" xlink:href="#taskbutton-top"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="progress-topleft" xlink:href="#taskbutton-topleft"/>
+  </g>
+  <g transform="translate(168,2e-5)" inkscape:label="attention" sodipodi:insensitive="true">
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-bottomright" xlink:href="#taskbutton-bottomright"/>
+   <g transform="translate(-95,-43)" fill="currentColor" inkscape:label="attention-bottom">
+    <rect x="100" y="80" width="32" height="3" opacity=".128"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1" opacity=".16"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+    <use transform="translate(130,64.5)" xlink:href="#status-attention"/>
+   </g>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-bottomleft" xlink:href="#taskbutton-bottomleft"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-right" xlink:href="#taskbutton-right"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-center" xlink:href="#taskbutton-center"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-left" xlink:href="#taskbutton-left"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-topright" xlink:href="#taskbutton-topright"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-top" xlink:href="#taskbutton-top"/>
+   <use transform="translate(-95,-43)" opacity=".16" inkscape:label="attention-topleft" xlink:href="#taskbutton-topleft"/>
+  </g>
+  <g id="focus" transform="translate(126,2e-5)" sodipodi:insensitive="true">
+   <use id="focus-bottomright" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-bottomright"/>
+   <g id="focus-bottom" transform="translate(-95,-43)" fill="currentColor">
+    <rect x="100" y="80" width="32" height="3" opacity=".128"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1" opacity=".16"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+    <use transform="translate(130,68.5)" xlink:href="#status-focus"/>
+   </g>
+   <use id="focus-bottomleft" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-bottomleft"/>
+   <use id="focus-right" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-right"/>
+   <use id="focus-center" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-center"/>
+   <use id="focus-left" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-left"/>
+   <use id="focus-topright" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-topright"/>
+   <use id="focus-top" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-top"/>
+   <use id="focus-topleft" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-topleft"/>
+  </g>
+  <g id="hover" transform="translate(84,2e-5)" sodipodi:insensitive="true">
+   <use id="hover-bottomright" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-bottomright"/>
+   <g id="hover-bottom" transform="translate(-95,-43)" fill="currentColor">
+    <rect class="ColorScheme-Background" x="100" y="80" width="32" height="3" opacity=".128"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1" opacity=".16"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+    <use transform="translate(130,72.5)" inkscape:label="use54" xlink:href="#status-hover"/>
+   </g>
+   <use id="hover-bottomleft" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-bottomleft"/>
+   <use id="hover-right" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-right"/>
+   <use id="hover-center" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-center"/>
+   <use id="hover-left" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-left"/>
+   <use id="hover-topright" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-topright"/>
+   <use id="hover-top" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-top"/>
+   <use id="hover-topleft" transform="translate(-95,-43)" opacity=".16" xlink:href="#taskbutton-topleft"/>
+  </g>
+  <g id="normal" transform="translate(42)" sodipodi:insensitive="true">
+   <use id="normal-bottomright" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-bottomright"/>
+   <g id="normal-bottom" transform="translate(-95,-43)">
+    <rect class="ColorScheme-Background" x="100" y="80" width="32" height="3" opacity=".064"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1" opacity=".08"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+    <use transform="translate(128,76.5)" xlink:href="#status-normal"/>
+   </g>
+   <use id="normal-bottomleft" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-bottomleft"/>
+   <use id="normal-right" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-right"/>
+   <use id="normal-center" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-center"/>
+   <use id="normal-left" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-left"/>
+   <use id="normal-topright" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-topright"/>
+   <use id="normal-top" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-top"/>
+   <use id="normal-topleft" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-topleft"/>
+   <rect id="normal-hint-bottom-margin" x="20.5" y="41" width="1" height="1" fill="#f0f"/>
+   <rect id="normal-hint-right-margin" x="41" y="20.5" width="1" height="1" fill="#f0f"/>
+   <rect id="normal-hint-left-margin" y="20.5" width="1" height="1" fill="#f0f"/>
+   <rect id="normal-hint-top-margin" x="20.5" width="1" height="1" fill="#f0f"/>
+  </g>
+  <g id="minimized" sodipodi:insensitive="true">
+   <use id="minimized-bottomright" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-bottomright"/>
+   <g id="minimized-bottom" transform="translate(-95,-43)" fill="currentColor">
+    <rect class="ColorScheme-Background" x="100" y="80" width="32" height="3" opacity=".064"/>
+    <rect class="ColorScheme-Background" x="100" y="83" width="32" height="1" opacity=".08"/>
+    <rect class="ColorScheme-Background" x="100" y="84" width="32" height="1" opacity="0"/>
+    <use transform="translate(125,80.5)" xlink:href="#status-minimized"/>
+   </g>
+   <use id="minimized-bottomleft" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-bottomleft"/>
+   <use id="minimized-right" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-right"/>
+   <use id="minimized-center" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-center"/>
+   <use id="minimized-left" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-left"/>
+   <use id="minimized-topright" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-topright"/>
+   <use id="minimized-top" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-top"/>
+   <use id="minimized-topleft" transform="translate(-95,-43)" opacity=".08" xlink:href="#taskbutton-topleft"/>
+  </g>
+  <g id="group-expander-bottom" transform="matrix(1.2222 0 0 1.2222 -190 -44.778)" sodipodi:insensitive="true">
+   <rect x="189.82" y="72.636" width="34.364" height="34.364" opacity=".003"/>
+   <rect x="204.54" y="103.73" width="4.9091" height="2.4546" rx="1.2273" ry="1.2273" opacity="0"/>
+   <use transform="matrix(.81818 0 0 .81818 225.41 69.364)" xlink:href="#expander"/>
+  </g>
+  <g id="group-expander-top" transform="translate(16 -95)" sodipodi:insensitive="true">
+   <rect x="26" y="51" width="42" height="42" opacity="0"/>
+   <use transform="translate(69.5 47)" xlink:href="#expander"/>
+  </g>
+ </g>
+</svg>
