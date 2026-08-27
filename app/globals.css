@@ -100,12 +100,22 @@ body {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(10, 10, 15, 0.72) 0%,
-    rgba(10, 10, 15, 0.85) 50%,
-    rgba(10, 10, 15, 0.97) 100%
+    rgba(10, 10, 15, 0.82) 0%,
+    rgba(10, 10, 15, 0.90) 50%,
+    rgba(10, 10, 15, 0.98) 100%
   );
   pointer-events: none;
   z-index: 1;
+}
+
+/* Hero text readability: dark backing for white headings over bright video frames */
+.hero-text-shadow {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+section.relative h1,
+section.relative .glitch-text {
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.92), 0 1px 4px rgba(0, 0, 0, 1);
 }
 
 .scanlines {
