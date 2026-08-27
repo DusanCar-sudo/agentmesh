@@ -51,9 +51,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm flex items-center gap-2">
-                  <Twitter className="w-4 h-4" />
-                  Twitter
+                <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm flex items-center gap-2">
+                  <Github className="w-4 h-4" />
+                  GitHub
                 </a>
               </li>
             </ul>
