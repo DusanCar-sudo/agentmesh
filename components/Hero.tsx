@@ -30,7 +30,7 @@ export default function Hero() {
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230a0a0f' width='1920' height='1080'/%3E%3C/svg%3E"
         >
           <source
-            src="https://cdn.coverr.co/videos/coverr-typing-on-computer-keyboard-1584/1080p.mp4"
+            src="https://videos.pexels.com/video-files/3130284/3130284-hd_1920_1080_30fps.mp4"
             type="video/mp4"
           />
         </video>
