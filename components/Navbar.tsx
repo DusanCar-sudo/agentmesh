@@ -16,7 +16,6 @@ export default function Navbar() {
   const navLinks = [
     { href: '#features', label: 'Features' },
     { href: '#architecture', label: 'Architecture' },
-    { href: '#docs', label: 'Docs' },
     { href: 'https://github.com/DusanCar-sudo/agentmesh', label: 'GitHub', external: true },
   ]
 
