@@ -63,7 +63,7 @@ export default function CTA() {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
-            href="#"
+            href="https://github.com/DusanCar-sudo/agentmesh"
             className="flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-lg hover:bg-white/10 transition-all"
           >
             <BookOpen className="w-5 h-5" />
