@@ -28,10 +28,10 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">Documentation</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">API Reference</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">Examples</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">Changelog</a></li>
+              <li><a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">Documentation</a></li>
+              <li><a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">API Reference</a></li>
+              <li><a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">Examples</a></li>
+              <li><a href="https://github.com/DusanCar-sudo/agentmesh/commits/main" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-mesh-cyan transition-colors text-sm">Changelog</a></li>
             </ul>
           </div>
 
@@ -66,8 +66,8 @@ export default function Footer() {
             © {currentYear} Agent Mesh. Open source under MIT License.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-gray-500 hover:text-gray-300 transition-colors text-sm">Privacy</a>
-            <a href="#" className="text-gray-500 hover:text-gray-300 transition-colors text-sm">Terms</a>
+            <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-300 transition-colors text-sm">Privacy</a>
+            <a href="https://github.com/DusanCar-sudo/agentmesh" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-300 transition-colors text-sm">Terms</a>
           </div>
         </div>
       </div>
